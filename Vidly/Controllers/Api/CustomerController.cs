@@ -65,7 +65,7 @@ namespace Vidly.Controllers.Api
             if (_Customer == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            Mapper.Map(customerDto, _Customer); ;
+            Mapper.Map(customerDto, _Customer);
           
             _Context.Entry(_Customer).State = EntityState.Modified;
             _Context.SaveChanges();

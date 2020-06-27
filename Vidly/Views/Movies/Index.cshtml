@@ -4,7 +4,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (Model.Count > 0)
+    <a href="/Movies/NewMovie" class="btn btn-primary">New Movie</a>
+
+    <table id="movies" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Movies</th>
+                <th>Genre</th>
+                <th>Details</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+@*@if (Model.Count > 0)
 {
     <h2>Movies</h2>
     @Html.ActionLink("New Movie", "NewMovie", "Movies", new { }, new { @class = "btn btn-primary btn-md" })
@@ -35,9 +50,60 @@
             }
         </tbody>
     </table>
-}
+}*@
 
 @section scripts
 {
    @Scripts.Render("~/bundles/jqueryval");
+
+
+    <script>
+        $(document).ready(function () {
+
+            var table = $('#movies').DataTable({
+                ajax: {
+                    url: '/api/Movie',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'name',
+                        render: function (data, type, movie) {
+                            return '<a href="/Movies/Edit/' + movie.id + '">' + movie.name + '</a>';
+                        }
+                    }, {
+                        data: 'genre.name'
+                    }, {
+                        data: 'id',
+                        render: function (data) {
+                            return '<a href="/Movies/Details/' + data + '">Details</a>';
+                        }
+                    }, {
+                        data: 'id',
+                        render: function (data) {
+                            return '<button class="btn-link js-delete" data-movie-id="' + data + '">Delete</button>';
+                        }
+                    }
+                ]
+            });
+
+            $('#movies').on('click', '.js-delete', function () {
+                var btn = $(this);
+                bootbox.confirm('Are you sure delete this movie?', function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '/api/Movie/' + btn.attr('data-movie-id'),
+                            method: 'DELETE',
+                            success: function () {
+                                table.row(btn.parents('tr')).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+
+
 }

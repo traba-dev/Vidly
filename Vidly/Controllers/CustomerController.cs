@@ -24,9 +24,10 @@ namespace Vidly.Controllers
         public ActionResult Index()
         {
             //include function is use to load data with eager loading
-            List<Customer> customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            //List<Customer> customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
-            return View(customers);
+            //return View(customers);
+            return View();
         }
 
         public ActionResult Details(int id)

@@ -64,9 +64,12 @@ namespace Vidly.Controllers
 
         public ActionResult Index()
         {
-            List<Movie> movies = _context.Movies.Include(c => c.Genre).ToList();
+            //Se comenta el codigo para usar datatable
+            //List<Movie> movies = _context.Movies.Include(c => c.Genre).ToList();
 
-            return View(movies);
+            //return View(movies);
+
+            return View();
         }
 
         public ActionResult Details(int id)
